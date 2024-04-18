@@ -1,4 +1,4 @@
-# boiler-plate-react-tailwind
+# boiler-plate-react-styled
 
 - [typescript](https://www.typescriptlang.org/)
 - [vitejs](https://vitejs.dev/)

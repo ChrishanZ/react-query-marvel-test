@@ -1,25 +1,30 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
+
+import Home from "./pages/Home";
+import UserPage from "./pages/UserPage";
 
 export default function App() {
   return (
-    <Container>
-      <Title>Hello World !</Title>
-    </Container>
+    <Router>
+      <Container>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/users/:userId" element={<UserPage />} />
+        </Routes>
+      </Container>
+    </Router>
   );
 }
 
 const Container = styled.div`
   min-height: 100vh;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  flex-direction: column;
   font-family: "Poppins", Courier, monospace;
-`;
-
-const Title = styled.h1`
-  font-size: 54px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 30px;
+  background-color: rgb(17 24 39);
+  color: rgb(249 250 251);
 `;
