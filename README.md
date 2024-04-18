@@ -7,8 +7,7 @@
 ## Installation
 
 ```bash
-git clone https://github.com/ChrishanZ/boiler-plate-react-styled.git
-cd boiler-plate-react-tailwind
+git clone https://github.com/ChrishanZ/boiler-plate-react-styled.git NAME_OF_PROJECT
 npm install
 npm run dev
 ```
