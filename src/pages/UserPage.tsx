@@ -12,7 +12,9 @@ export default function UserPage() {
 
   const getCharacterInfos = () => {
     fetch(
-      `https://gateway.marvel.com:443/v1/public/characters/${userId}?ts=1&apikey=3f14a02022b1c9fd316870ea071a412c&hash=86930afd5a3e293ea2bcd8a08938981c`
+      `https://gateway.marvel.com:443/v1/public/characters/${userId}?ts=1&apikey=${
+        import.meta.env.VITE_API_KEY
+      }&hash=${import.meta.env.VITE_HASH_API_KEY}`
     )
       .then((res) => {
         return res.json();
