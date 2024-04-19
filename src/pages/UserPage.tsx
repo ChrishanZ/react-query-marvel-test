@@ -5,10 +5,6 @@ import styled from "styled-components";
 import Title from "../components/Title";
 import Loader from "../components/Loader";
 
-interface IId {
-  id: string;
-}
-
 export default function UserPage() {
   const { userId } = useParams();
 
