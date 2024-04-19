@@ -16,6 +16,17 @@ npm install
 npm run dev
 ```
 
+## Fill .env
+
+Get your API Key here :
+
+https://developer.marvel.com/
+
+```bash
+VITE_API_KEY=x
+VITE_HASH_API_KEY=x
+```
+
 ## Solution
 
 ```javascript
