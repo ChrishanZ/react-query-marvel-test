@@ -1,18 +1,24 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import styled from "styled-components";
-
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Home from "./pages/Home";
 import UserPage from "./pages/UserPage";
+
+const queryClient = new QueryClient();
 
 export default function App() {
   return (
     <Router>
-      <Container>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/users/:userId" element={<UserPage />} />
-        </Routes>
-      </Container>
+      <QueryClientProvider client={queryClient}>
+        <Container>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/users/:userId" element={<UserPage />} />
+          </Routes>
+        </Container>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </Router>
   );
 }

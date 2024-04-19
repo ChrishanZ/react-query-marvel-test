@@ -1,44 +1,42 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useParams, Link } from "react-router-dom";
 
 import styled from "styled-components";
 import Title from "../components/Title";
 import Loader from "../components/Loader";
 
-interface ICharacter {
-  thumbnail: {
-    path: string;
-    extension: string;
-  };
+interface IId {
   id: string;
-  name: string;
-  description: string;
 }
 
 export default function UserPage() {
   const { userId } = useParams();
-  const [character, setCharacter] = useState<ICharacter | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
-  const getCharacterInfos = () => {
-    fetch(
-      `https://gateway.marvel.com:443/v1/public/characters/${userId}?ts=1&apikey=${
+  const getCharacterInfos = async (id: string | undefined) => {
+    const response = await fetch(
+      `https://gateway.marvel.com:443/v1/public/characters/${id}?ts=1&apikey=${
         import.meta.env.VITE_API_KEY
       }&hash=${import.meta.env.VITE_HASH_API_KEY}`
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data.data.results[0]);
-        setCharacter(data.data.results[0]);
-        setIsLoading(false);
-      });
+    );
+
+    // Check if the response is OK
+    if (!response.ok) {
+      throw new Error("Failed to fetch characters");
+    }
+
+    const data = await response.json();
+    console.log(data);
+    console.log(data.name);
+
+    // Return the data
+    return data.data.results[0];
   };
 
-  useEffect(() => {
-    getCharacterInfos();
-  }, []);
+  const { data, isLoading } = useQuery({
+    queryKey: ["characters", userId],
+    queryFn: () => getCharacterInfos(userId),
+    enabled: userId !== undefined,
+  });
 
   return (
     <>
@@ -46,25 +44,19 @@ export default function UserPage() {
         <Loader />
       ) : (
         <>
-          {character ? (
-            <>
-              <BackButton to={"/"}>Go back</BackButton>
-              <Title title={character.name} />
-              {character.thumbnail && (
-                <ContainerImage>
-                  <Image
-                    src={`${character.thumbnail.path}.${character.thumbnail.extension}`}
-                    alt="Character"
-                  />
-                </ContainerImage>
-              )}
-              <Description>
-                {character.description
-                  ? character.description
-                  : "No description!"}
-              </Description>
-            </>
-          ) : null}
+          <BackButton to={"/"}>Go back</BackButton>
+          <Title title={data.name} />
+          {data.thumbnail && (
+            <ContainerImage>
+              <Image
+                src={`${data.thumbnail.path}.${data.thumbnail.extension}`}
+                alt="character"
+              />
+            </ContainerImage>
+          )}
+          <Description>
+            {data.description ? data.description : "No description!"}
+          </Description>
         </>
       )}
     </>

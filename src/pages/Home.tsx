@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+
 import styled from "styled-components";
 
 import Card from "../components/Card";
@@ -15,28 +16,27 @@ interface ICharacters {
 }
 
 export default function Home() {
-  const [characters, setCharacters] = useState<ICharacters[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const getCharacters = () => {
-    fetch(
+  const getCharacters = async (): Promise<ICharacters[]> => {
+    const response = await fetch(
       `https://gateway.marvel.com:443/v1/public/characters?events=238&ts=1&limit=24&apikey=${
         import.meta.env.VITE_API_KEY
       }&hash=${import.meta.env.VITE_HASH_API_KEY}`
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data.data.results);
-        setCharacters(data.data.results);
-        setIsLoading(false);
-      });
+    );
+
+    // Check if the response is OK
+    if (!response.ok) {
+      throw new Error("Failed to fetch characters");
+    }
+
+    const data = await response.json();
+    // Return the data
+    return data.data.results;
   };
 
-  useEffect(() => {
-    getCharacters();
-  }, []);
+  const { data, isLoading } = useQuery({
+    queryKey: ["characters"],
+    queryFn: getCharacters,
+  });
 
   return (
     <>
@@ -46,7 +46,7 @@ export default function Home() {
       ) : (
         <>
           <Cards>
-            {characters.map((char) => (
+            {data.map((char) => (
               <Card key={char.id} char={char} />
             ))}
           </Cards>
