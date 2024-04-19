@@ -3,15 +3,21 @@
 - [typescript](https://www.typescriptlang.org/)
 - [vitejs](https://vitejs.dev/)
 - [styled-components](https://styled-components.com/)
+- [react-query](https://tanstack.com/query/v3)
+
+# Exercice to pratice react-query
+
+Try to use react-query on master
 
 ## Installation
 
 ```bash
-git clone https://github.com/ChrishanZ/boiler-plate-react-styled.git NAME_OF_PROJECT
 npm install
 npm run dev
 ```
 
-## Release
+## Solution
 
-\_18/04/2024 : Init
+```javascript
+git checkout feature-react-query
+```
