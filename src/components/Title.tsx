@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export default function Title({ title }) {
+interface ITitle {
+  title: string;
+}
+
+export default function Title({ title }: ITitle) {
   return <H1>{title}</H1>;
 }
 

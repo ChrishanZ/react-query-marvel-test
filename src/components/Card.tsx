@@ -2,7 +2,18 @@ import { Link } from "react-router-dom";
 
 import styled from "styled-components";
 
-export default function Card({ char }) {
+interface ICharacter {
+  char: {
+    thumbnail: {
+      path: string;
+      extension: string;
+    };
+    id: string;
+    name: string;
+  };
+}
+
+export default function Card({ char }: ICharacter) {
   const { thumbnail, name } = char;
   return (
     <StyledLink to={`/users/${char.id}`}>

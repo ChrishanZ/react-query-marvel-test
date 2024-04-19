@@ -5,8 +5,17 @@ import Card from "../components/Card";
 import Title from "../components/Title";
 import Loader from "../components/Loader";
 
+interface ICharacters {
+  id: string;
+  thumbnail: {
+    path: string;
+    extension: string;
+  };
+  name: string;
+}
+
 export default function Home() {
-  const [characters, setCharacters] = useState([]);
+  const [characters, setCharacters] = useState<ICharacters[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const getCharacters = () => {

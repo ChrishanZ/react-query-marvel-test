@@ -5,9 +5,19 @@ import styled from "styled-components";
 import Title from "../components/Title";
 import Loader from "../components/Loader";
 
+interface ICharacter {
+  thumbnail: {
+    path: string;
+    extension: string;
+  };
+  id: string;
+  name: string;
+  description: string;
+}
+
 export default function UserPage() {
   const { userId } = useParams();
-  const [character, setCharacter] = useState([]);
+  const [character, setCharacter] = useState<ICharacter | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const getCharacterInfos = () => {
@@ -36,24 +46,25 @@ export default function UserPage() {
         <Loader />
       ) : (
         <>
-          <BackButton to={"/"}>go back</BackButton>
-          <Title title={character.name} />
-          {character.thumbnail && (
-            <ContainerImage>
-              <Image
-                src={
-                  character.thumbnail.path + "." + character.thumbnail.extension
-                }
-                alt="Character"
-              />
-            </ContainerImage>
-          )}
-
-          {character.description ? (
-            <Description>{character.description}</Description>
-          ) : (
-            <Description>No description!</Description>
-          )}
+          {character ? (
+            <>
+              <BackButton to={"/"}>Go back</BackButton>
+              <Title title={character.name} />
+              {character.thumbnail && (
+                <ContainerImage>
+                  <Image
+                    src={`${character.thumbnail.path}.${character.thumbnail.extension}`}
+                    alt="Character"
+                  />
+                </ContainerImage>
+              )}
+              <Description>
+                {character.description
+                  ? character.description
+                  : "No description!"}
+              </Description>
+            </>
+          ) : null}
         </>
       )}
     </>
