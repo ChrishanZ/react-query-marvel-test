@@ -38,20 +38,23 @@ export default function Home() {
     queryFn: getCharacters,
   });
 
+  if (isLoading) {
+    return (
+      <>
+        <Title title={"Choose your character"} />
+        <Loader />
+      </>
+    );
+  }
+
   return (
     <>
       <Title title={"Choose your character"} />
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <>
-          <Cards>
-            {data.map((char) => (
-              <Card key={char.id} char={char} />
-            ))}
-          </Cards>
-        </>
-      )}
+      <Cards>
+        {data?.map((char) => (
+          <Card key={char.id} char={char} />
+        ))}
+      </Cards>
     </>
   );
 }
